@@ -1,0 +1,16 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "#taint_fibre",
+    "taint_fibre": "taint:block/taint_fibre"
+  },
+  "elements": [
+    {   "from": [ 0, 0, 0.5 ],
+      "to": [ 16, 16, 0.5 ],
+      "faces": {
+        "north": { "uv": [ 16, 0, 0, 16 ], "texture": "#taint_fibre" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#taint_fibre" }
+      }
+    }
+  ]
+}

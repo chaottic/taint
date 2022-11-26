@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.0.8",
+  "package": "com.chaottic.taint.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BlocksInvoker"
+  ],
+  "client": [
+    "BiomeColorsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

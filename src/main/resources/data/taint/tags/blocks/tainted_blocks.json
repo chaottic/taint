@@ -1,0 +1,7 @@
+{
+  "values": [
+    "taint:tainted_log",
+    "taint:taint_geyser",
+    "taint:taint_fibre"
+  ]
+}

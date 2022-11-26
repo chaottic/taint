@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "com.chaottic",
+    "id": "taint",
+    "version": "1.0-SNAPSHOT",
+    "metadata": {
+      "name": "Taint",
+      "license": "MIT"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "init": "com.chaottic.taint.common.Taint",
+      "client_init": "com.chaottic.taint.client.TaintClient"
+    }
+  },
+  "mixin": "taint.mixin.json"
+}
