@@ -10,6 +10,6 @@ public final class TaintClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient(ModContainer mod) {
-        BlockRenderLayerMap.put(RenderType.cutout(), TaintBlocks.TAINT_FIBRE);
+        BlockRenderLayerMap.put(RenderType.cutout(), TaintBlocks.TAINT_FIBRE, TaintBlocks.TAINT_FAN);
     }
 }

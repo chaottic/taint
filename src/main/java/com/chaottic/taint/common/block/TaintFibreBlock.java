@@ -1,14 +1,16 @@
 package com.chaottic.taint.common.block;
 
+import com.chaottic.taint.common.TaintBlockTags;
 import com.chaottic.taint.common.TaintBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.MultifaceSpreader;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,7 +26,7 @@ public final class TaintFibreBlock extends MultifaceBlock {
 
         @Override
         protected boolean stateCanBeReplaced(BlockGetter blockGetter, BlockPos blockPos, BlockPos blockPos2, Direction direction, BlockState blockState) {
-            return blockState.isAir() || blockState.is(block) || blockState.getMaterial() == Material.REPLACEABLE_PLANT;
+            return canReplace(blockState) || blockState.is(block);
         }
     });
 
@@ -34,30 +36,44 @@ public final class TaintFibreBlock extends MultifaceBlock {
 
     @Override
     public void randomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
-
         if (randomSource.nextInt(25) == 0) {
             spreader.spreadFromRandomFaceTowardRandomDirection(blockState, serverLevel, blockPos, randomSource);
         }
 
         if (randomSource.nextInt(25) == 0) {
             for (Direction direction : availableFaces(blockState)) {
-                var neighbour = serverLevel.getBlockState(blockPos = blockPos.relative(direction));
+                var blockPos1 = blockPos.relative(direction);
 
-                Block tainted = null;
-                if (neighbour.is(BlockTags.LOGS)) {
-                    tainted = getLogOrGeyser(blockPos, serverLevel, randomSource);
+                var blockState1 = serverLevel.getBlockState(blockPos1);
+                if (blockState1.is(TaintBlockTags.TAINTED_BLOCKS)) {
+                    continue;
                 }
 
-                if (tainted != null) {
-                    serverLevel.setBlock(blockPos, copyValues(tainted.defaultBlockState(), neighbour), Block.UPDATE_ALL);
+                Block result = null;
+
+                if (blockState1.is(BlockTags.DIRT)) {
+                    result = TaintBlocks.TAINTED_SOIL;
+                } else if (blockState1.is(BlockTags.LOGS)) {
+                    result = getLogOrGeyser(blockPos1, serverLevel, randomSource);
+                } else if (blockState1.is(BlockTags.LEAVES)) {
+                    result = Blocks.AIR;
+                } else if (blockState1.getMaterial() == Material.WOOD) {
+                    result = TaintBlocks.TAINT_CRUST;
+                }
+
+                if (result != null) {
+                    serverLevel.setBlock(blockPos1, copyValues(result.defaultBlockState(), blockState1), Block.UPDATE_ALL);
                 }
             }
         }
     }
 
     @Override
-    public boolean canBeReplaced(BlockState blockState, BlockPlaceContext blockPlaceContext) {
-        return false;
+    public BlockState updateShape(BlockState blockState, Direction direction, BlockState blockState2, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos blockPos2) {
+        if (!canSurvive(blockState, levelAccessor, blockPos)) {
+            return Blocks.AIR.defaultBlockState();
+        }
+        return super.updateShape(blockState, direction, blockState2, levelAccessor, blockPos, blockPos2);
     }
 
     @Override
@@ -84,6 +100,10 @@ public final class TaintFibreBlock extends MultifaceBlock {
         }
 
         return blockState;
+    }
+
+    public static boolean canReplace(BlockState blockState) {
+        return blockState.isAir() || blockState.getMaterial() == Material.REPLACEABLE_PLANT;
     }
 }
 

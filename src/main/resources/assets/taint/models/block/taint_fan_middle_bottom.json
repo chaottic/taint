@@ -1,0 +1,6 @@
+{
+	"parent": "taint:block/taint_fan_template",
+	"textures": {
+		"particle": "taint:block/taint_fan_middle_bottom"
+	}
+}

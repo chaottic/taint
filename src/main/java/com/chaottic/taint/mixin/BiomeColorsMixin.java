@@ -17,7 +17,7 @@ public class BiomeColorsMixin {
 
     @Inject(method = "getAverageColor", at = @At("RETURN"), cancellable = true)
     private static void getAverageColor(BlockAndTintGetter blockAndTintGetter, BlockPos blockPos, ColorResolver colorResolver, CallbackInfoReturnable<Integer> cir) {
-        var r = 3;
+        var r = 4;
 
         var mutableBlockPos = new BlockPos.MutableBlockPos();
 
@@ -33,7 +33,7 @@ public class BiomeColorsMixin {
             }
         }
 
-        cir.setReturnValue(lerp(cir.getReturnValueI(), 0x7930A0, Math.min(0.0F + 0.0625F * i, 1.0F)));
+        cir.setReturnValue(lerp(cir.getReturnValueI(), 0x7930A0, Math.min(0.0F + 0.025F * i, 1.0F)));
     }
 
     private static int lerp(int i, int j, float f) {

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "part=right": {
+      "model": "taint:block/taint_fan_right"
+    },
+    "part=right_bottom": {
+      "model": "taint:block/taint_fan_right_bottom"
+    },
+    "part=middle": {
+      "model": "taint:block/taint_fan_middle"
+    },
+    "part=middle_bottom": {
+      "model": "taint:block/taint_fan_middle_bottom"
+    },
+    "part=left": {
+      "model": "taint:block/taint_fan_left"
+    },
+    "part=left_bottom": {
+      "model": "taint:block/taint_fan_left_bottom"
+    }
+  }
+}

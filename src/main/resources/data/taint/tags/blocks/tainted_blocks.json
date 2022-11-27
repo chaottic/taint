@@ -1,7 +1,10 @@
 {
   "values": [
+    "taint:tainted_soil",
     "taint:tainted_log",
     "taint:taint_geyser",
-    "taint:taint_fibre"
+    "taint:taint_crust",
+    "taint:taint_fibre",
+    "taint:taint_fan"
   ]
 }
